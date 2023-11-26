@@ -24,7 +24,7 @@ vim.keymap.set("n", "<leader>fs", function()
 end, { desc = "project search" })
 
 --undotree
-vim.keymap.set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "undo tree" })
+vim.keymap.set("n", "<leader>uuu", vim.cmd.UndotreeToggle, { desc = "undo tree" })
 
 --fugitive
 vim.keymap.set("n", "<leader>Git", vim.cmd.Git, { desc = "show git" })
