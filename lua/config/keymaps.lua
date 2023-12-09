@@ -8,6 +8,7 @@
 --local Util = require("lazyvim.util")
 -- local map = Util.safe_keymap_set
 
+vim.keymap.set("n", "<C-i>", "<Nop>")
 -- move around buffer
 vim.keymap.set("n", "L", vim.cmd.bn)
 vim.keymap.set("n", "H", vim.cmd.bN)
@@ -34,7 +35,7 @@ vim.keymap.set("n", "<leader>fs", function()
 end, { desc = "project search" })
 
 --telescope undo
---vim.keymap.set("n", "<leader>un", "<cmd>Telescope undo<cr>")
+vim.keymap.set("n", "<leader>un", "<cmd>Telescope undo<cr>")
 
 --fugitive
 vim.keymap.set("n", "<leader>git", vim.cmd.Git, { desc = "show git" })
