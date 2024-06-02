@@ -38,3 +38,6 @@ opt.signcolumn = "no"
 opt.wrap = true
 opt.cursorline = false
 opt.scrolloff = 8
+
+-- end of buffer('~')
+opt.fillchars = "eob: "
