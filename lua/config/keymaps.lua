@@ -1,61 +1,89 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
+local keymaps = {}
 
--- DO NOT USE THIS IN YOU OWN CONFIG!!
--- use `vim.keymap.set` instead
+--- close_current_pane : better :bd --------------------
+--- close window better than close in developing -------
 
---local Util = require("lazyvim.util")
--- local map = Util.safe_keymap_set
+local function close_current_pane()
+	local current_win = vim.api.nvim_get_current_win()
+	local current_buf = vim.api.nvim_win_get_buf(current_win)
 
-vim.keymap.set("n", "<C-i>", "<Nop>")
--- move around buffer
-vim.keymap.set("n", "L", vim.cmd.bn)
-vim.keymap.set("n", "H", vim.cmd.bN)
+	local windows = vim.api.nvim_tabpage_list_wins(0)
+	local is_buffer_in_other_windows = false
 
---telescope
-local builtin = require("telescope.builtin")
+	for _, win in ipairs(windows) do
+		if win ~= current_win and vim.api.nvim_win_get_buf(win) == current_buf then
+			is_buffer_in_other_windows = true
+			break
+		end
+	end
 
-vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "find projext file" })
-vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "find projext grep" })
-vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "find buffer" })
-vim.keymap.set("n", "<leader>to", function()
-    builtin.lsp_document_symbols({})
-end, { desc = "find document_symbols" })
-vim.keymap.set("n", "<leader>tf", function()
-    builtin.lsp_document_symbols({ symbols = "function" })
-end, { desc = "find document_symbols" })
-vim.keymap.set("n", "<leader>ti", function()
-    builtin.lsp_document_symbols({ symbols = "variable" })
-end, { desc = "find document_symbols" })
-vim.keymap.set("n", "<leader>Git", builtin.git_files, { desc = "git file" })
-vim.keymap.set("n", "<leader>ts", builtin.treesitter, { desc = "treesitter" })
-vim.keymap.set("n", "<leader>fs", function()
-    builtin.grep_string({ search = vim.fn.input("Grep > ") })
-end, { desc = "project search" })
+	if is_buffer_in_other_windows then
+		vim.cmd("close")
+	else
+		vim.api.nvim_buf_delete(current_buf, { force = true })
+	end
+end
+---------------------------------------------------------------
 
---telescope undo
-vim.keymap.set("n", "<leader>un", "<cmd>Telescope undo<cr>")
+function keymaps.setup()
+	------------ no Q --------------
+	vim.keymap.set("n", "Q", "<nop>")
+	------------ move highlight code down-up ------------------
+	vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "move highlight down 1 line" })
+	vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "move highlight up 1 line" })
 
---fugitive
-vim.keymap.set("n", "<leader>git", vim.cmd.Git, { desc = "show git" })
+	------------ move between buffer --------------------------
+	vim.keymap.set("n", "L", vim.cmd.bn)
+	vim.keymap.set("n", "H", vim.cmd.bN)
 
---tmux
-vim.keymap.set({ "n", "t" }, "<C-h>", "<CMD>NavigatorLeft<CR>")
-vim.keymap.set({ "n", "t" }, "<C-l>", "<CMD>NavigatorRight<CR>")
-vim.keymap.set({ "n", "t" }, "<C-k>", "<CMD>NavigatorUp<CR>")
-vim.keymap.set({ "n", "t" }, "<C-j>", "<CMD>NavigatorDown<CR>")
--- vim.keymap.set({ "n", "t" }, "<C-p>", "<CMD>NavigatorPrevious<CR>")
+	------------ move up down with center ---------------------
+	vim.keymap.set("n", "<C-d>", "<C-d>zz")
+	vim.keymap.set("n", "<C-u>", "<C-u>zz")
+	------------ next search highlight center ----------------
+	vim.keymap.set("n", "n", "nzzzv")
+	vim.keymap.set("n", "N", "Nzzzv")
 
---terminal
--- local lazyterm = function()
---     Util.terminal(nil, { cwd = Util.root() })
--- end
--- map("n", "<leader>tp", lazyterm, { desc = "Terminal (root dir)" })
--- map("n", "<leader>tf", function()
---     Util.terminal()
--- end, { desc = "Terminal (cwd)" })
---
--- -- Terminal Mappings
--- map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
--- map("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
+	------------ time for Yank -------------------------------
+	vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+	vim.keymap.set("n", "<leader>Y", [["+Y]])
+
+	------------ time for paste -------------------------------
+	vim.keymap.set("x", "<leader>p", [["_dP]])
+
+	------------ del line
+	vim.keymap.set({ "n", "v" }, "<leader>d", '"_d')
+
+	-- window resize ---
+	vim.keymap.set("n", "<C-w>r", ":resize 10<CR>", { desc = "Resize window to 10 line" })
+	vim.keymap.set("n", "<C-w>f", ":resize 100<CR>", { desc = "Resize window to 100 line" })
+	-- close the current window (not buffer) -------------------------
+	vim.keymap.set("n", "<leader>bd", close_current_pane, { desc = "Close Current Pane" })
+
+	-- remove search highlight --------
+	vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+
+	-- move around list ---------------
+	vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
+	vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
+	vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
+	vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
+
+	-- happy jest ---------------------
+	vim.keymap.set("n", "<leader>ee", "oit('should Z', () => {<CR>  Z<CR> })<Esc><CR>O}<Esc>")
+	vim.keymap.set("n", "<leader>er", "oexpect(Z).toZ(Z);<Esc>")
+	vim.keymap.set("n", "<leader>et", "oexpect((Z) => { <C-r><C-w>() }).toThrow();<Esc>")
+
+	-- fast rename in file ------------
+	vim.keymap.set("n", "<leader>snr", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+	-- Diagnostic keymaps
+	vim.keymap.set("n", "<C-s>ld", vim.diagnostic.setloclist, { desc = "[L]ist [D]iagnostic" })
+
+	-- move between pane ----
+	vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
+	vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
+	vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
+	vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
+end
+
+return keymaps
