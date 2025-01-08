@@ -33,6 +33,15 @@ return {
 					end
 				end
 
+				-- local function open_in_split_resize(callback)
+				-- 	return function()
+				-- 		-- Open the split with the callback (e.g., telescope.lsp_definitions)
+				-- 		vim.cmd("belowright split")
+				-- 		vim.cmd("resize 10") -- Resize the split to 10 lines
+				-- 		callback()
+				-- 	end
+				-- end
+
 				map("<C-g>d", open_in_split(telescope.lsp_definitions), "[G]oto [D]efinition")
 				-- Find references for the word under your cursor.
 				map("<C-g>r", open_in_split(telescope.lsp_references), "[G]oto [R]eferences")

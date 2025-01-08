@@ -20,8 +20,8 @@ return {
 		},
 		sidebars = { "qf", "help" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
 		day_brightness = 0.3, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
-		hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
-		dim_inactive = false, -- dims inactive windows
+		hide_inactive_statusline = true, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
+		dim_inactive = true, -- dims inactive windows
 		lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
 
 		--- You can override specific color groups to use other groups or a hex color
@@ -43,18 +43,19 @@ return {
 
 			vim.cmd([[
 highlight Normal guibg=NONE ctermbg=NONE
-      highlight NormalNC guibg=NONE ctermbg=NONE     
+      highlight NormalNC guibg=NONE ctermbg=NONE
       highlight NonText guibg=NONE ctermbg=NONE
       highlight SignColumn guibg=NONE ctermbg=NONE
-      highlight VertSplit guibg=NONE ctermbg=NONE   
-      highlight StatusLine guibg=NONE ctermbg=NONE 
-      highlight StatusLineNC guibg=NONE ctermbg=NONE
-      highlight TabLine guibg=NONE ctermbg=NONE    
+      highlight VertSplit guibg=NONE ctermbg=NONE
+      highlight StatusLine guifg=#96CEB4 guibg=NONE ctermbg=NONE
+      highlight StatusLineNC guifg=#000000 guibg=NONE ctermbg=NONE
+      highlight TabLine guifg=#211924 guibg=NONE ctermbg=NONE
       highlight TabLineFill guibg=NONE ctermbg=NONE
       highlight TabLineSel guibg=NONE ctermbg=NONE
       highlight CursorLine guibg=#19202F ctermbg=NONE
-
-      highlight StatusLineFileNameNC guibg=white ctermbg=white  
+	highlight StatusLineFilename guifg=#FFBD73 guibg=NONE
+	highlight StatusLineMode guifg=#C4E1F6
+      highlight StatusLineFileNameNC guifg=white guibg=white ctermbg=white
     ]])
 			-- You can configure highlights by doing something like:
 			vim.cmd.hi("Comment gui=none")

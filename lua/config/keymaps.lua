@@ -2,7 +2,6 @@ local keymaps = {}
 
 --- close_current_pane : better :bd --------------------
 --- close window better than close in developing -------
-
 local function close_current_pane()
 	local current_win = vim.api.nvim_get_current_win()
 	local current_buf = vim.api.nvim_win_get_buf(current_win)
@@ -26,6 +25,9 @@ end
 ---------------------------------------------------------------
 
 function keymaps.setup()
+	------------ ez life -----------
+	vim.keymap.set("i", "<C-q>", "`")
+	vim.keymap.set("i", "<C-c>", "<esc>")
 	------------ no Q --------------
 	vim.keymap.set("n", "Q", "<nop>")
 	------------ move highlight code down-up ------------------
@@ -84,6 +86,35 @@ function keymaps.setup()
 	vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 	vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 	vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
+
+	-- Function to convert px to em
+	local function convert_px_to_em()
+		local line = vim.api.nvim_get_current_line()
+		local cursor_pos = vim.api.nvim_win_get_cursor(0)
+		local cursor_col = cursor_pos[2]
+
+		local match = line:sub(cursor_col):match("(%d+)px")
+
+		if match then
+			local px_value = tonumber(match)
+			if px_value then
+				local em_value = px_value / 16
+
+				-- replace px with em in the current line
+				local new_line = line:sub(1, cursor_col) .. em_value .. "em" .. line:sub(cursor_col + #match + 3)
+				vim.api.nvim_set_current_line(new_line)
+			else
+				print("Invalid px value")
+			end
+		else
+			print("No px value found")
+		end
+	end
+
+	-- Bind the function to the Leader key + 'ce' in Normal Mode
+	vim.api.nvim_create_user_command("ConvertPxToEm", convert_px_to_em, { desc = "Convert px to em under cursor" })
+
+	vim.api.nvim_set_keymap("n", "<Leader>ce", ":ConvertPxToEm<CR>", { noremap = true, silent = true })
 end
 
 return keymaps

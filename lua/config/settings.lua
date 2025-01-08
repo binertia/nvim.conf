@@ -5,10 +5,11 @@ function settings.setup()
 	vim.g.maplocalleader = " "
 
 	local opt = vim.opt
+	-- vim.o.statusline = "      %t"
 
 	-- default --
 	-- opt.guicursor = ""
-	opt.laststatus = 0
+	opt.laststatus = 2
 	opt.showtabline = 0
 	opt.clipboard = ""
 	opt.autowrite = false
@@ -36,7 +37,7 @@ function settings.setup()
 
 	-- FiraCode typeface--
 	vim.o.guifont = "FiraCode Nerd Font:h14"
-	vim.g.have_nerd_font = true
+	-- vim.g.have_nerd_font = true
 
 	-- Enable mouse mode, can be useful for resizing splits for example!
 	opt.mouse = "a"
@@ -53,7 +54,7 @@ function settings.setup()
 	opt.smartcase = true
 
 	-- Keep signcolumn on by default
-	opt.signcolumn = "yes"
+	-- opt.signcolumn = "yes"
 
 	-- Decrease update time
 	opt.updatetime = 50
@@ -80,10 +81,25 @@ function settings.setup()
 	vim.g.netrw_banner = 0
 	vim.g.netrw_winsize = 25
 
-	vim.opt.swapfile = false
-	vim.opt.backup = false
-	vim.opt.undodir = os.getenv("HOME") .. "/.nvswap"
-	vim.opt.undofile = true
+	opt.swapfile = false
+	opt.backup = false
+	opt.undodir = os.getenv("HOME") .. "/.nvswap"
+	opt.undofile = true
+
+	-- Set the statusline to display path in white and filename in yellow
+	-- Set the statusline to display path in white and filename in yellow
+	-- Set the statusline format
+	-- vim.o.statusline =
+	-- 	"%#StatusLine#%{fnamemodify(expand('%:p:h'), ':~')}%*/%#StatusLineFilename#%{expand('%:t')}%* %m %= %l ,%c %p%%"
+
+	vim.o.statusline = "   %#StatusLine#%{fnamemodify(expand('%:p:h'), ':~')}%*/%#StatusLineFilename#%{expand('%:t')}%*"
+		.. "  %m  %=%#StatusLineMode#%y%*    "
+		.. "%=%-3l"
+		.. ",%-3c   "
+		.. "%-3p%%    %<"
+	-- Highlight the full path part in white
+
+	-- Highlight the filename part in ellow
 end
 
 return settings
