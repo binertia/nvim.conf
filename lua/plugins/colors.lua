@@ -42,21 +42,21 @@ return {
 			vim.cmd.colorscheme("tokyonight-night")
 
 			vim.cmd([[
-highlight Normal guibg=NONE ctermbg=NONE
-      highlight NormalNC guibg=NONE ctermbg=NONE
-      highlight NonText guibg=NONE ctermbg=NONE
-      highlight SignColumn guibg=NONE ctermbg=NONE
-      highlight VertSplit guibg=NONE ctermbg=NONE
-      highlight StatusLine guifg=#96CEB4 guibg=NONE ctermbg=NONE
-      highlight StatusLineNC guifg=#000000 guibg=NONE ctermbg=NONE
-      highlight TabLine guifg=#211924 guibg=NONE ctermbg=NONE
-      highlight TabLineFill guibg=NONE ctermbg=NONE
-      highlight TabLineSel guibg=NONE ctermbg=NONE
-      highlight CursorLine guibg=#19202F ctermbg=NONE
-	highlight StatusLineFilename guifg=#FFBD73 guibg=NONE
-	highlight StatusLineMode guifg=#C4E1F6
-      highlight StatusLineFileNameNC guifg=white guibg=white ctermbg=white
-    ]])
+				highlight Normal guibg=NONE ctermbg=NONE
+				highlight NormalNC guibg=NONE ctermbg=NONE
+				highlight NonText guibg=NONE ctermbg=NONE
+				highlight SignColumn guibg=NONE ctermbg=NONE
+				highlight VertSplit guibg=NONE ctermbg=NONE
+				highlight StatusLine guifg=#96CEB4 guibg=NONE ctermbg=NONE
+				highlight StatusLineNC guifg=#000000 guibg=NONE ctermbg=NONE
+				highlight TabLine guifg=#211924 guibg=NONE ctermbg=NONE
+				highlight TabLineFill guibg=NONE ctermbg=NONE
+				highlight TabLineSel guibg=NONE ctermbg=NONE
+				highlight CursorLine guibg=#19202F ctermbg=NONE
+				highlight StatusLineFilename guifg=#FFBD73 guibg=NONE
+				highlight StatusLineMode guifg=#C4E1F6
+				highlight StatusLineFileNameNC guifg=white guibg=white ctermbg=white
+			    ]])
 			-- You can configure highlights by doing something like:
 			vim.cmd.hi("Comment gui=none")
 		end,
