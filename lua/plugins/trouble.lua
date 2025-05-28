@@ -1,4 +1,4 @@
-return {
+return { -- useful in some language. btw great stuff from folke
 	{
 		"folke/trouble.nvim",
 		config = function()
