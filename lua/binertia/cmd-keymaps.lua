@@ -7,3 +7,15 @@ vim.keymap.set("n", "<leader>bd", cmd.close_current_pane, { noremap = true, desc
 -- if you want to use with tmux. go to tmux-session file, config it to match your env.
 vim.keymap.set("n", "<leader>tp", tmux.launch_tmux_session, { desc = "Tmux: Open Project in New Session" }) -- tp for teleport portal
 vim.keymap.set("n", "<leader>ts", tmux.switch_tmux_session, { desc = "Tmux: Switch Session" }) -- ts for teleport switch
+
+vim.keymap.set("n", "<leader>hmd", function()
+	local header = {
+		"---",
+		"title: ",
+		"date: '" .. os.date("%Y-%m-%d") .. "'",
+		"spoiler: ",
+		"---",
+		"",
+	}
+	vim.api.nvim_buf_set_lines(0, 0, 0, false, header)
+end, { desc = "Header markdown", noremap = true, silent = true })
